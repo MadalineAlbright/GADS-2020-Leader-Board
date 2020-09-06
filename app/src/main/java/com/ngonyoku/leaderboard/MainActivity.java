@@ -4,11 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.view.Menu;
 
 import com.google.android.material.tabs.TabLayout;
 import com.ngonyoku.leaderboard.Adapters.ViewPagerAdapter;
 import com.ngonyoku.leaderboard.Fragments.LearningLeadersFragment;
-import com.ngonyoku.leaderboard.Fragments.SkillIQLeaders;
+import com.ngonyoku.leaderboard.Fragments.SkillIQLeadersFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,8 +28,15 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), 0);
         viewPagerAdapter.addFragments(new LearningLeadersFragment(this), "Learning Leaders");
-        viewPagerAdapter.addFragments(new SkillIQLeaders(), "Skill IQ Leaders");
+        viewPagerAdapter.addFragments(new SkillIQLeadersFragment(this), "Skill IQ Leaders");
 
         viewPager.setAdapter(viewPagerAdapter);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

@@ -13,9 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ngonyoku.leaderboard.Adapters.LearningLeadersAdapter;
+import com.ngonyoku.leaderboard.Adapters.SkillIQLeadersAdapter;
 import com.ngonyoku.leaderboard.HerokuAppAPI;
-import com.ngonyoku.leaderboard.Models.LearningLeaders;
+import com.ngonyoku.leaderboard.Models.SkillIQLeaders;
 import com.ngonyoku.leaderboard.R;
 
 import java.util.ArrayList;
@@ -27,19 +27,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LearningLeadersFragment extends Fragment {
+public class SkillIQLeadersFragment extends Fragment {
     public static final String BASE_URL = "https://gadsapi.herokuapp.com/api/";
-    private Retrofit mRetrofit;
     private Context mContext;
-    private List<LearningLeaders> mLearningLeadersList;
-    private LearningLeadersAdapter mAdapter;
-    private RecyclerView mLearningLeadersRecyclerView;
+    private RecyclerView mSkillIQLeaderList;
+    private List<SkillIQLeaders> mSkillIQLeaders;
+    private Retrofit mRetrofit;
+    private SkillIQLeadersAdapter mAdapter;
 
-    public LearningLeadersFragment() {
-    }
-
-    public LearningLeadersFragment(Context context) {
-        mContext = context;
+    public SkillIQLeadersFragment(Context context) {
+        this.mContext = context;
     }
 
     @Override
@@ -50,14 +47,14 @@ public class LearningLeadersFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_learning_leaders, container, false);
+        View view = inflater.inflate(R.layout.fragment_skill_iq_learners, container, false);
 
-        mLearningLeadersRecyclerView = view.findViewById(R.id.ll_RecyclerView);
-        mLearningLeadersList = new ArrayList<>();
+        mSkillIQLeaderList = view.findViewById(R.id.skilliq__recyclerView);
+        mSkillIQLeaders = new ArrayList<>();
 
-        mLearningLeadersRecyclerView.setHasFixedSize(true);
-        mLearningLeadersRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mAdapter = new LearningLeadersAdapter(mLearningLeadersList, mContext);
+        mSkillIQLeaderList.setLayoutManager(new LinearLayoutManager(getContext()));
+        mSkillIQLeaderList.setHasFixedSize(true);
+        mAdapter = new SkillIQLeadersAdapter(mSkillIQLeaders, mContext);
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -65,19 +62,18 @@ public class LearningLeadersFragment extends Fragment {
                 .build()
         ;
 
-        fetchLearningLeaders();
+        fetchSkillIQLeaders();
         return view;
     }
 
-    /*Fetch all the Learning Leaders*/
-    private void fetchLearningLeaders() {
-        HerokuAppAPI leadersAPI = mRetrofit.create(HerokuAppAPI.class);
+    private void fetchSkillIQLeaders() {
+        HerokuAppAPI herokuAppAPI = mRetrofit.create(HerokuAppAPI.class);
 
-        Call<List<LearningLeaders>> call = leadersAPI.getLearningLeader();
+        Call<List<SkillIQLeaders>> call = herokuAppAPI.getSkillIQLeaders();
         call
-                .enqueue(new Callback<List<LearningLeaders>>() {
+                .enqueue(new Callback<List<SkillIQLeaders>>() {
                     @Override
-                    public void onResponse(Call<List<LearningLeaders>> call, Response<List<LearningLeaders>> response) {
+                    public void onResponse(Call<List<SkillIQLeaders>> call, Response<List<SkillIQLeaders>> response) {
                         if (!response.isSuccessful()) {
                             new AlertDialog.Builder(mContext)
                                     .setTitle("Error")
@@ -85,16 +81,16 @@ public class LearningLeadersFragment extends Fragment {
                             ;
                         }
 
-                        List<LearningLeaders> learningLeaders = response.body();
-                        assert learningLeaders != null;
-                        mLearningLeadersList.addAll(learningLeaders);
-                        mAdapter.notifyDataSetChanged();
+                        List<SkillIQLeaders> skillIQLeaders = response.body();
+                        assert skillIQLeaders != null;
+                        mSkillIQLeaders.addAll(skillIQLeaders);
 
-                        mLearningLeadersRecyclerView.setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
+                        mSkillIQLeaderList.setAdapter(mAdapter);
                     }
 
                     @Override
-                    public void onFailure(Call<List<LearningLeaders>> call, Throwable t) {
+                    public void onFailure(Call<List<SkillIQLeaders>> call, Throwable t) {
                         new AlertDialog.Builder(mContext)
                                 .setTitle("Error")
                                 .setMessage(t.getMessage())
@@ -102,6 +98,6 @@ public class LearningLeadersFragment extends Fragment {
                     }
                 })
         ;
-
     }
+
 }

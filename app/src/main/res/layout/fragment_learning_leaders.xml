@@ -13,7 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_leader_per_hour" />
+        tools:listitem="@layout/item_leaders_list" />
 
     <ProgressBar
         android:id="@+id/ll_progressBar"
