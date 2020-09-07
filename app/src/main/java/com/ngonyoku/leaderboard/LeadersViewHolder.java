@@ -26,14 +26,14 @@ public class LeadersViewHolder extends RecyclerView.ViewHolder {
         String details = learningLeaders.getScore() + " skill IQ score, " + learningLeaders.getCountry();
         mLeaderName.setText(learningLeaders.getName());
         mLeaderDetails.setText(details);
-        Utilities.Images.loadImage(mLeaderBadge, learningLeaders.getBadgeUrl());
+        Utilities.ImagesUtility.loadImage(mLeaderBadge, learningLeaders.getBadgeUrl());
     }
 
     public void bind(LearningLeaders learningLeaders) {
         String details = learningLeaders.getHours() + " Hours, " + learningLeaders.getCountry();
         mLeaderName.setText(learningLeaders.getName());
         mLeaderDetails.setText(details);
-        Utilities.Images.loadImage(mLeaderBadge, learningLeaders.getBadgeUrl());
+        Utilities.ImagesUtility.loadImage(mLeaderBadge, learningLeaders.getBadgeUrl());
     }
 
 }

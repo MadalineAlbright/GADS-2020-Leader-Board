@@ -17,6 +17,7 @@ import com.ngonyoku.leaderboard.Adapters.LearningLeadersAdapter;
 import com.ngonyoku.leaderboard.HerokuAppAPI;
 import com.ngonyoku.leaderboard.Models.LearningLeaders;
 import com.ngonyoku.leaderboard.R;
+import com.ngonyoku.leaderboard.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LearningLeadersFragment extends Fragment {
-    public static final String BASE_URL = "https://gadsapi.herokuapp.com/api/";
-    private Retrofit mRetrofit;
+
     private Context mContext;
     private List<LearningLeaders> mLearningLeadersList;
     private LearningLeadersAdapter mAdapter;
@@ -59,11 +59,6 @@ public class LearningLeadersFragment extends Fragment {
         mLearningLeadersRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new LearningLeadersAdapter(mLearningLeadersList, mContext);
 
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        ;
 
         fetchLearningLeaders();
         return view;
@@ -71,10 +66,10 @@ public class LearningLeadersFragment extends Fragment {
 
     /*Fetch all the Learning Leaders*/
     private void fetchLearningLeaders() {
-        HerokuAppAPI leadersAPI = mRetrofit.create(HerokuAppAPI.class);
 
-        Call<List<LearningLeaders>> call = leadersAPI.getLearningLeader();
-        call
+        Utilities
+                .GadsApiUtility
+                .fetchLearningLeaders()
                 .enqueue(new Callback<List<LearningLeaders>>() {
                     @Override
                     public void onResponse(Call<List<LearningLeaders>> call, Response<List<LearningLeaders>> response) {

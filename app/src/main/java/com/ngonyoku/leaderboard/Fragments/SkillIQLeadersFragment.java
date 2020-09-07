@@ -17,6 +17,7 @@ import com.ngonyoku.leaderboard.Adapters.SkillIQLeadersAdapter;
 import com.ngonyoku.leaderboard.HerokuAppAPI;
 import com.ngonyoku.leaderboard.Models.SkillIQLeaders;
 import com.ngonyoku.leaderboard.R;
+import com.ngonyoku.leaderboard.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +29,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SkillIQLeadersFragment extends Fragment {
-    public static final String BASE_URL = "https://gadsapi.herokuapp.com/api/";
     private Context mContext;
     private RecyclerView mSkillIQLeaderList;
     private List<SkillIQLeaders> mSkillIQLeaders;
-    private Retrofit mRetrofit;
     private SkillIQLeadersAdapter mAdapter;
 
     public SkillIQLeadersFragment(Context context) {
@@ -56,21 +55,15 @@ public class SkillIQLeadersFragment extends Fragment {
         mSkillIQLeaderList.setHasFixedSize(true);
         mAdapter = new SkillIQLeadersAdapter(mSkillIQLeaders, mContext);
 
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        ;
 
         fetchSkillIQLeaders();
         return view;
     }
 
     private void fetchSkillIQLeaders() {
-        HerokuAppAPI herokuAppAPI = mRetrofit.create(HerokuAppAPI.class);
-
-        Call<List<SkillIQLeaders>> call = herokuAppAPI.getSkillIQLeaders();
-        call
+        Utilities
+                .GadsApiUtility
+                .fetchSkillIQLeaders()
                 .enqueue(new Callback<List<SkillIQLeaders>>() {
                     @Override
                     public void onResponse(Call<List<SkillIQLeaders>> call, Response<List<SkillIQLeaders>> response) {
