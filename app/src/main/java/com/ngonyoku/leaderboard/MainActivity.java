@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_submit) {
-            startActivity(new Intent(this, SubmissionActivity.class));
+            startActivity(new Intent(this, ProjectSubmission.class));
         }
         return super.onOptionsItemSelected(item);
     }

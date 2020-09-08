@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ngonyoku.leaderboard.Adapters.SkillIQLeadersAdapter;
 import com.ngonyoku.leaderboard.HerokuAppAPI;
 import com.ngonyoku.leaderboard.Models.SkillIQLeaders;
+import com.ngonyoku.leaderboard.ProjectSubmission;
 import com.ngonyoku.leaderboard.R;
 import com.ngonyoku.leaderboard.Utilities;
 
@@ -69,8 +70,10 @@ public class SkillIQLeadersFragment extends Fragment {
                     public void onResponse(Call<List<SkillIQLeaders>> call, Response<List<SkillIQLeaders>> response) {
                         if (!response.isSuccessful()) {
                             new AlertDialog.Builder(mContext)
-                                    .setTitle("Error")
+                                    .setTitle(R.string.error)
                                     .setMessage(response.message() + "\n" + response.code())
+                                    .create()
+                                    .show()
                             ;
                         }
 
@@ -85,8 +88,10 @@ public class SkillIQLeadersFragment extends Fragment {
                     @Override
                     public void onFailure(Call<List<SkillIQLeaders>> call, Throwable t) {
                         new AlertDialog.Builder(mContext)
-                                .setTitle("Error")
+                                .setTitle(R.string.error)
                                 .setMessage(t.getMessage())
+                                .create()
+                                .show()
                         ;
                     }
                 })

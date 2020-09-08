@@ -14,13 +14,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Utilities {
     public static class GadsApiUtility {
-        public static final String BASE_URL = "https://gadsapi.herokuapp.com/api/";
-        public static Retrofit mRetrofit = new Retrofit
+        public static final String GADS_API_BASE_URL = "https://gadsapi.herokuapp.com/api/";
+        public static final String GOOGLE_FORM_API_BASE_URL = "https://docs.google.com/forms/d/e/";
+
+        public static Retrofit mRetrofitGads = new Retrofit
                 .Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(GADS_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        public static HerokuAppAPI mLeadersAPI = mRetrofit.create(HerokuAppAPI.class);
+        public static Retrofit mRetrofitGoogleForm = new Retrofit
+                .Builder()
+                .baseUrl(GOOGLE_FORM_API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        public static HerokuAppAPI mLeadersAPI = mRetrofitGads.create(HerokuAppAPI.class);
+        public static HerokuAppAPI mProjectSubmissionAPI = mRetrofitGoogleForm.create(HerokuAppAPI.class);
+
+        public static Call<Void> submitProject(String fName, String lName, String email, String link) {
+            return mProjectSubmissionAPI.submitForm(fName, lName, email, link);
+        }
 
         public static Call<List<LearningLeaders>> fetchLearningLeaders() {
             return mLeadersAPI.getLearningLeader();
